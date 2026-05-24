@@ -1,0 +1,269 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api": {
+            "post": {
+                "summary": "Predict",
+                "operationId": "predict_api_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array",
+                                "title": "Sentences",
+                                "default": [
+                                    "他叫汤姆去拿外衣。"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Item"
+                                    },
+                                    "type": "array",
+                                    "title": "Response Predict Api Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "Item": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "nes": {
+                        "items": {
+                            "$ref": "#/components/schemas/NE"
+                        },
+                        "type": "array",
+                        "title": "Nes"
+                    },
+                    "words": {
+                        "items": {
+                            "$ref": "#/components/schemas/Word"
+                        },
+                        "type": "array",
+                        "title": "Words"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "nes",
+                    "words"
+                ],
+                "title": "Item"
+            },
+            "NE": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "title": "Offset"
+                    },
+                    "ne": {
+                        "type": "string",
+                        "title": "Ne"
+                    },
+                    "length": {
+                        "type": "integer",
+                        "title": "Length"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "offset",
+                    "ne",
+                    "length"
+                ],
+                "title": "NE"
+            },
+            "Parent": {
+                "properties": {
+                    "parent": {
+                        "type": "integer",
+                        "title": "Parent"
+                    },
+                    "relate": {
+                        "type": "string",
+                        "title": "Relate"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "parent",
+                    "relate"
+                ],
+                "title": "Parent"
+            },
+            "SRLRole": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "title": "Offset"
+                    },
+                    "length": {
+                        "type": "integer",
+                        "title": "Length"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "offset",
+                    "length",
+                    "type"
+                ],
+                "title": "SRLRole"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            },
+            "Word": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "length": {
+                        "type": "integer",
+                        "title": "Length"
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "title": "Offset"
+                    },
+                    "text": {
+                        "type": "string",
+                        "title": "Text"
+                    },
+                    "pos": {
+                        "type": "string",
+                        "title": "Pos"
+                    },
+                    "parent": {
+                        "type": "integer",
+                        "title": "Parent"
+                    },
+                    "relation": {
+                        "type": "string",
+                        "title": "Relation"
+                    },
+                    "roles": {
+                        "items": {
+                            "$ref": "#/components/schemas/SRLRole"
+                        },
+                        "type": "array",
+                        "title": "Roles"
+                    },
+                    "parents": {
+                        "items": {
+                            "$ref": "#/components/schemas/Parent"
+                        },
+                        "type": "array",
+                        "title": "Parents"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "length",
+                    "offset",
+                    "text",
+                    "pos",
+                    "parent",
+                    "relation",
+                    "roles",
+                    "parents"
+                ],
+                "title": "Word"
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+	"authors": [
+		"sdv"
+	],
+	"license": "proprietary",
+	"copyright": "Copyright © 2026, sdv",
+	"name": "ltp",
+	"description": "Pure D implementation of LTP (Language Technology Platform)",
+	"dependencies": {
+		"silly": "*",
+		"sdv_avro-d":"*"
+	},
+	"targetType": "autodetect",
+	"sourcePaths": ["source"],
+	"excludedSourceFiles": [
+		"source/app.d"
+	],
+	"copyFiles": [
+		"$PACKAGE_DIR/model/cws_model.bin",
+		"$PACKAGE_DIR/model/pos_model.bin",
+		"$PACKAGE_DIR/model/ner_model.bin"
+	],
+	"configurations": [
+		{
+			"targetType": "library",
+			"name": "ltp",
+			"excludedSourceFiles": [
+				"source/app.d"
+			],
+			"targetPath": "bin"
+		},
+		{
+			"targetType": "executable",
+			"name": "ltp-cli",
+			"versions": [
+				"Have_ltp_cli"
+			],
+			"mainSourceFile": "source/app.d"
+		}
+	]
+}
